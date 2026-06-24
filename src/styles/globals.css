@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Color Palette - Base */
+  --charcoal: #1A1A2E;
+  --charcoal-80: rgba(26, 26, 46, 0.8);
+  --charcoal-40: rgba(26, 26, 46, 0.4);
+
+  /* Accent */
+  --warm-sand: #F0D5B7;
+  --sand-light: #F2EBD9;
+
+  /* Surfaces & Semantic Tokens */
+  --bg-base: #F8F6F0;       /* Off-White */
+  --bg-elevated: #FFFFFF;   /* White-Pure */
+  --bg-overlay: #F2EBD9;    /* Sand-Light */
+  --border-subtle: #E2D0D5; /* 0.5px Border default */
+  --border-elevated: #D8D3CB;
+  --border-raised: #C8C3BB;
+
+  /* Priorities */
+  --priority-low-bg: #EEF1F4;
+  --priority-low-text: #7B8FA1;
+  --priority-low-dot: #7B8FA1;
+  
+  --priority-med-bg: #FDF3E8;
+  --priority-med-text: #9C6A1A;
+  --priority-med-dot: #C9843A;
+
+  --priority-high-bg: #FDEEE9;
+  --priority-high-text: #A83428;
+  --priority-high-dot: #D4614A;
+
+  --priority-urgent-bg: #FDEAEA;
+  --priority-urgent-text: #B61A1A;
+  --priority-urgent-dot: #CD392B;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 90px;
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-base);
+    color: var(--charcoal);
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Zero shadow override to force pure border-and-tint depth model */
+  *, *::before, *::after {
+    box-shadow: none !important;
+  }
+}
+
+/* Typography styles based on the DoneDay specification sheet */
+.display-hero {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.typography-h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.typography-h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.typography-h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.body-lg {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.body-default {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.body-sm {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.caption-default {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.label-uppercase {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Custom Scrollbar for Minimal Look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: var(--radius-xs);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-elevated);
+}
+
+/* Pulse animation for Urgent badge dot */
+@keyframes urgentPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
+.animate-urgent-pulse {
+  animation: urgentPulse 1.8s infinite ease-in-out;
+}
