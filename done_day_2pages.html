@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoneDay - สรุประบบ DoneDay TodoList (2 แผ่น A4)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Sarabun', 'Outfit', sans-serif;
+      background-color: #EFECE6;
+      color: #2D2B2A;
+      line-height: 1.5;
+      padding: 20px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 16mm 18mm;
+      background: #FAF7F2;
+      border: 1px solid #E2DDD5;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #E6E0D6;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: #2D2B2A;
+      color: #FAF7F2;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .brand-title h1 {
+      font-family: 'Outfit', 'Sarabun', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #2D2B2A;
+      letter-spacing: -0.5px;
+    }
+    .brand-title p {
+      font-size: 11px;
+      color: #7A7571;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .badge-zen {
+      background: #EFEAE1;
+      color: #5A5550;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid #D8D2C7;
+    }
+    .meta-tag {
+      text-align: right;
+      font-size: 11px;
+      color: #8C8681;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #2D2B2A;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 4px solid #2D2B2A;
+      padding-left: 10px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .card {
+      background: #FFFFFF;
+      border: 1px solid #E8E3DA;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .card-accent {
+      background: #F4EFE6;
+      border: 1px solid #DFD9CE;
+    }
+    .card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2D2B2A;
+      margin-bottom: 4px;
+    }
+    .card p, .card ul {
+      font-size: 11.5px;
+      color: #55504C;
+      line-height: 1.45;
+    }
+    .card ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .card ul li {
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 3px;
+    }
+    .card ul li::before {
+      content: "•";
+      color: #8C8681;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    .diagram-box {
+      background: #2D2B2A;
+      color: #FAF7F2;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .diagram-item {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+    .diagram-item .icon {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .diagram-item .label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #E5E0D8;
+    }
+    .diagram-item .sub {
+      font-size: 9px;
+      color: #A8A29E;
+    }
+    .footer {
+      border-top: 1px solid #E6E0D6;
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: #8C8681;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    th, td {
+      border: 1px solid #E2DDD5;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th {
+      background: #EFEAE1;
+      color: #2D2B2A;
+      font-weight: 700;
+    }
+    td {
+      background: #FFFFFF;
+      color: #44403C;
+    }
+    .code-inline {
+      font-family: monospace;
+      background: #EAE5DC;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      color: #2D2B2A;
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .page-container {
+        gap: 0;
+      }
+      .page {
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        page-break-after: always;
+        height: 297mm;
+        width: 210mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="page">
+    <div>
+      <!-- Header -->
+      <div class="header">
+        <div class="brand">
+          <div class="brand-logo">D</div>
+          <div class="brand-title">
+            <h1>DoneDay</h1>
+            <p>Japanese-Minimal Productivity & TodoList System</p>
+          </div>
+        </div>
+        <div>
+          <span class="badge-zen">禅 Zen Design System</span>
+          <div class="meta-tag" style="margin-top: 4px;">เอกสารสรุประบบ | แผ่นที่ 1 จาก 2</div>
+        </div>
+      </div>
+
+      <!-- Executive Summary -->
+      <div style="margin-bottom: 14px;">
+        <div class="section-title">1. บทสรุปภาพรวมระบบ (Executive Summary)</div>
+        <div class="card card-accent">
+          <p><strong>DoneDay (TodoList)</strong> คือแพลตฟอร์มบริหารจัดการภารกิจและตารางชีวิตที่ออกแบบด้วยปรัชญา <strong>Japanese-Minimalism</strong> ผสานความเรียบง่าย สบายตา และมีสมาธิ เข้ากับเครื่องมือเพิ่มผลผลิตระดับสูง (High Productivity System) เพื่อช่วยให้ผู้ใช้งานจัดการเป้าหมายรายวัน ทำงานร่วมกับทีม วางแผนตารางเวลา และติดตามสถิติส่วนบุคคลได้อย่างสมบูรณ์แบบ</p>
+        </div>
+      </div>
+
+      <!-- System Architecture Diagram / Overview from visual reference -->
+      <div class="diagram-box">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong style="font-size: 13px; color: #FAF7F2;">โครงสร้างหน้าจอหลัก 5 โมดูล (Visual Interface Architecture)</strong>
+          <span style="font-size: 10px; color: #D6D1C7;">Repository: github.com/kunaaa123/TodoList</span>
+        </div>
+        <div class="diagram-grid">
+          <div class="diagram-item">
+            <div class="icon">🔑</div>
+            <div class="label">1. Auth Screen</div>
+            <div class="sub">เข้าสู่ระบบ & Guest</div>
+          </div>
+          <div class="diagram-item">
+            <div class="icon">📅</div>
+            <div class="label">2. Calendar</div>
+            <div class="sub">ปฏิทิน & คัมบัง</div>
+          </div>
+          <div class="diagram-item">
+            <div class="icon">🎯</div>
+            <div class="label">3. Today Goals</div>
+            <div class="sub">เป้าหมาย & สถิติ</div>
+          </div>
+          <div class="diagram-item">
+            <div class="icon">📊</div>
+            <div class="label">4. Stats View</div>
+            <div class="sub">อัตราความสำเร็จ</div>
+          </div>
+          <div class="diagram-item">
+            <div class="icon">👥</div>
+            <div class="label">5. Collaborative</div>
+            <div class="sub">บอร์ดทีม & แชท</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Pillars Breakdown -->
+      <div style="margin-bottom: 14px;">
+        <div class="section-title">2. ฟีเจอร์หลัก 4 เสาหลัก (Core Pillars & Features)</div>
+        <div class="grid-2">
+          
+          <div class="card">
+            <h3>🎯 1. Today Goal & Zen Ambient (ภารกิจประจำวัน)</h3>
+            <ul>
+              <li><strong>Daily Goal Progress:</strong> แสดงอัตราความสำเร็จเป้าหมายรายวัน (%) พร้อมติดตาม Streak การทำงานต่อเนื่อง</li>
+              <li><strong>Zen Breathing Guide:</strong> วงกลมนำการหายใจ (Inhale / Hold / Exhale) ช่วยผ่อนคลายและเรียกสมาธิ</li>
+              <li><strong>Native Lofi Music Player:</strong> เครื่องเล่นเพลง Ambient Lofi เพื่อเปิดสร้างบรรยากาศขณะทำงาน</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>📅 2. Calendar & Task Planning (ปฏิทินวางแผน)</h3>
+            <ul>
+              <li><strong>Interactive Calendar:</strong> สลับมุมมอง รายวัน / รายสัปดาห์ / รายเดือน ได้อย่างอิสระ</li>
+              <li><strong>Time Block Mapping:</strong> จัดสรรเวลาทำงานด้วยโครงสร้างเวลาที่ชัดเจน</li>
+              <li><strong>Category Tags:</strong> แยกประเภทงาน เช่น Code Audit, Meditation, Design, Meeting</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>👥 3. Collaborative Board & Chat (ห้องทำงานร่วมกัน)</h3>
+            <ul>
+              <li><strong>Kanban Workflow:</strong> จัดกลุ่มสถานะ Define, Overview, In Audit, Approved ด้วยระบบ Drag & Drop</li>
+              <li><strong>Real-time Team Chat:</strong> ส่งข้อความ อัปเดตสถานะงานกับสมาชิกในห้องทำงาน</li>
+              <li><strong>Onboarding Flow:</strong> ระบบเชิญสมาชิกผ่าน อีเมล หรือ รหัสห้องทำงาน</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>📈 4. Advanced Analytics & Habits (สถิติและนิสัย)</h3>
+            <ul>
+              <li><strong>Success Rate Chart:</strong> กราฟ Recharts แสดงสถิติงานที่ทำเสร็จย้อนหลัง</li>
+              <li><strong>Habit Tracking:</strong> ติดตามการทำกิจกรรมเชิงบวก (Zen Meditation, Daily Code Audit)</li>
+              <li><strong>Time Spent Analytics:</strong> คำนวณชั่วโมงที่ใช้ไปในแต่ละโปรเจกต์</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Key Value Proposition -->
+      <div>
+        <div class="section-title">3. จุดเด่นและคุณค่าของระบบ (Value Proposition)</div>
+        <div class="grid-3">
+          <div class="card" style="text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 4px;">🧘‍♂️</div>
+            <h3>Distraction-Free UI</h3>
+            <p>ดีไซน์โทนสีอบอุ่น (Zen Warm Cream) สบายตา ลด Cognitive Load ในการทำงาน</p>
+          </div>
+          <div class="card" style="text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 4px;">⚡</div>
+            <h3>Fast & Fluid UX</h3>
+            <p>ตอบสนองทันทีด้วย Zustand State Management และ Framer Motion Animations</p>
+          </div>
+          <div class="card" style="text-align: center;">
+            <div style="font-size: 18px; margin-bottom: 4px;">🤝</div>
+            <h3>Team Synergy</h3>
+            <p>รองรับทั้งงานส่วนบุคคล (Personal Tasks) และงานกลุ่ม (Collaborative Rooms)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Page 1 -->
+    <div class="footer">
+      <span>DoneDay — Project Overview & Architecture</span>
+      <span>หน้า 1 จาก 2</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    <div>
+      <!-- Header Page 2 -->
+      <div class="header">
+        <div class="brand">
+          <div class="brand-logo">D</div>
+          <div class="brand-title">
+            <h1>DoneDay Technical Specs</h1>
+            <p>Architecture, Stack & Project Structure</p>
+          </div>
+        </div>
+        <div>
+          <span class="badge-zen">Technical Document</span>
+          <div class="meta-tag" style="margin-top: 4px;">เอกสารสรุประบบ | แผ่นที่ 2 จาก 2</div>
+        </div>
+      </div>
+
+      <!-- Tech Stack Matrix -->
+      <div style="margin-bottom: 14px;">
+        <div class="section-title">4. สถาปัตยกรรมเทคโนโลยี (Technical Stack Matrix)</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">หมวดหมู่ (Layer)</th>
+              <th style="width: 35%;">เทคโนโลยีที่ใช้ (Technology)</th>
+              <th style="width: 40%;">บทบาทหน้าที่ในระบบ (Purpose & Responsibility)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Framework Core</strong></td>
+              <td><span class="code-inline">Next.js 14.2.3</span> (App Router)</td>
+              <td>โครงสร้างหลักแบบ SSR/SSG พร้อมระบบ Routing ที่รวดเร็ว</td>
+            </tr>
+            <tr>
+              <td><strong>UI & Templating</strong></td>
+              <td><span class="code-inline">React 18.3</span> / <span class="code-inline">TypeScript 5.4</span></td>
+              <td>สร้าง UI Component แบบ Type-Safe และ Reusable</td>
+            </tr>
+            <tr>
+              <td><strong>State Management</strong></td>
+              <td><span class="code-inline">Zustand 4.5.2</span></td>
+              <td>จัดการ Global State ทั้ง Tasks, Rooms, User Auth และ UI States</td>
+            </tr>
+            <tr>
+              <td><strong>Drag and Drop</strong></td>
+              <td><span class="code-inline">@dnd-kit/core</span> / <span class="code-inline">@dnd-kit/sortable</span></td>
+              <td>ระบบลากวางการ์ดภารกิจในคัมบังและตารางงานแบบลื่นไหล</td>
+            </tr>
+            <tr>
+              <td><strong>Styling & Theme</strong></td>
+              <td><span class="code-inline">TailwindCSS 3.4</span> / <span class="code-inline">PostCSS</span></td>
+              <td>จัดสไตล์ Japanese Minimal ด้วย Custom Color Tokens</td>
+            </tr>
+            <tr>
+              <td><strong>Animations & Icons</strong></td>
+              <td><span class="code-inline">Framer Motion</span> / <span class="code-inline">Lucide React</span></td>
+              <td>เอฟเฟกต์การสลับหน้าและการ์ด พร้อมชุดไอคอนมาตรฐาน</td>
+            </tr>
+            <tr>
+              <td><strong>Data Visualization</strong></td>
+              <td><span class="code-inline">Recharts 2.12</span></td>
+              <td>แสดงผลกราฟสถิติ Productivity และอัตราการทำเป้าหมายสำเร็จ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- File Directory Structure -->
+      <div style="margin-bottom: 14px;">
+        <div class="section-title">5. โครงสร้างไฟล์และโมดูลสำคัญ (File Structure & Modules)</div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>📂 Components Directory (<span class="code-inline">src/components/</span>)</h3>
+            <ul>
+              <li><span class="code-inline">views/dashboard-view.tsx</span>: สรุปสถิติ & Dashboard หลัก</li>
+              <li><span class="code-inline">views/today-view.tsx</span>: หน้าจัดการงานประจำวัน + Zen Player</li>
+              <li><span class="code-inline">views/rooms-view.tsx</span>: ห้องทำงาน Kanban & Real-time Chat</li>
+              <li><span class="code-inline">views/calendar-view.tsx</span>: ปฏิทินจัดสรรเวลา</li>
+              <li><span class="code-inline">auth/login-modal.tsx</span>: หน้าจอ Login & Guest Sign-in</li>
+              <li><span class="code-inline">sidebar.tsx</span>: เมนูนำทางแบบมินิมอล</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🧠 Store & Logic (<span class="code-inline">src/store/ & lib/</span>)</h3>
+            <ul>
+              <li><span class="code-inline">useDoneDayStore.ts</span>: ศูนย์กลาง State (Tasks, Rooms, User)</li>
+              <li><span class="code-inline">translations.ts</span>: ระบบรองรับหลายภาษา (Multi-Language)</li>
+              <li><span class="code-inline">task-card.tsx</span>: การ์ดภารกิจ Drag & Drop</li>
+              <li><span class="code-inline">progress-ring.tsx</span>: วงกลมแสดง % ความสำเร็จ</li>
+              <li><span class="code-inline">drawer.tsx / modal.tsx</span>: หน้าต่างป๊อปอัพจัดการข้อมูล</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Flow & Execution -->
+      <div style="margin-bottom: 14px;">
+        <div class="section-title">6. การติดตั้งและการใช้งาน (Installation & Deployment)</div>
+        <div class="card card-accent">
+          <p style="margin-bottom: 6px;"><strong>ขั้นตอนการรันโปรเจกต์ในสภาพแวดล้อม Local:</strong></p>
+          <div style="background: #2D2B2A; color: #FAF7F2; padding: 10px 14px; border-radius: 6px; font-family: monospace; font-size: 11px;">
+            # 1. Clone Repository<br>
+            git clone https://github.com/kunaaa123/TodoList.git<br><br>
+            # 2. Install Dependencies<br>
+            npm install<br><br>
+            # 3. Start Development Server<br>
+            npx next dev -p 3005
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary concluding note -->
+      <div>
+        <div class="section-title">7. สรุปภาพรวมการนำไปใช้งาน (Conclusion & Future Roadmap)</div>
+        <div class="card">
+          <p>ระบบ <strong>DoneDay TodoList</strong> พร้อมสำหรับการนำไปใช้งานจริงและการขยายผล สามารถรองรับการต่อยอดเชื่อมต่อกับ Backend Database (เช่น Firebase, Supabase, PostgreSQL) เพื่อจัดเก็บข้อมูลบนคลาวด์แบบกระจายตัว และการแจ้งเตือน Push Notifications ในอนาคตได้อย่างสมบูรณ์แบบ</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Page 2 -->
+    <div class="footer">
+      <span>DoneDay — Technical Specifications & System Architecture</span>
+      <span>หน้า 2 จาก 2</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
